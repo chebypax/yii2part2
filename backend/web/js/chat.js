@@ -2,12 +2,10 @@ let webSocketPort = 8080;
 if(typeof wsPort !== 'undefined'){
     webSocketPort = wsPort;
 }
-console.log(webSocketPort);
-//let webSocketPort = wsPort ? wsPort : 8080;
+
 let conn = new WebSocket('ws://localhost:' + webSocketPort);
 conn.onopen = function(e) {
     console.log("Connection established!");
-    console.log(user);
 };
 
 $('#messageForm').on('submit', (e) => {
@@ -30,14 +28,15 @@ conn.onmessage = function(e) {
     $('#chatWindow').val(`${message.username}: ${message.text} \n ${history}`);
 
     if( user != message.username) {
-        //let $el = $('li.messages-menu ul.menu li:first').clone();
-        let $el = $('<li><a href="#"><div class="pull-left">' +
-            '<img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="user-image" alt="User Image"/></div>' +
+        let src = photo + "/img/user2-160x160.jpg";
+        let el = $('<li><a href="#"><div class="pull-left">' +
+            '<img id="ava" src="" class="user-image" alt="User Image"/></div>' +
             '<h4>Support Team <small><i class="fa fa-clock-o"></i> 5 mins</small></h4>' +
             '<p>Why not buy a new awesome theme?</p></a></li>');
-        $el.find('p').text(message.text);
-        $el.find('h4').text(message.username);
-        $el.prependTo('li.messages-menu ul.menu');
+        el.find('p').text(message.text);
+        el.find('h4').text(message.username);
+        el.prependTo('li.messages-menu ul.menu');
+        $("#ava").attr("src",src);
 
         let cnt = $('li.messages-menu ul.menu li').length;
         $('li.messages-menu span.label-success').text(cnt);

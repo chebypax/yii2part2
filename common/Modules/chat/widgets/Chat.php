@@ -10,6 +10,7 @@ class Chat extends Widget
 {
     public $wsPort = 8080;
     public $user;
+    public $photo;
 
     public function __construct($config = [])
 {
@@ -21,6 +22,7 @@ class Chat extends Widget
     {
         $this->view->registerJsVar('wsPort', $this->wsPort);
         $this->view->registerJsVar('user', $this->user);
+        $this->view->registerJsVar('photo', $this->photo);
         ChatAsset::register($this->view);
 
     }
