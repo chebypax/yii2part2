@@ -136,6 +136,7 @@ use yii\helpers\Html;
                             <p>
                                 <span><?= YII::$app->user->identity->username?></span> - Web Developer
                                 <small>Member since Nov. 2012</small>
+                                <small><?= $directoryAsset ?></small>
                             </p>
                         </li>
                         <!-- Menu Body -->
