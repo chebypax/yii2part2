@@ -7,7 +7,8 @@ $this->title = 'My Yii Application';
 <div class="site-index">
     <?= \common\modules\chat\widgets\Chat::widget([
             'wsPort' => Yii::$app->params['chat.port'],
-            'user' => Yii::$app->user->identity->username]) ?>
+            'user' => Yii::$app->user->identity->username,
+        'photo' => "/assets/cbf8e117"]) ?>
     <div class="jumbotron">
         <h1>Congratulations!</h1>
 
