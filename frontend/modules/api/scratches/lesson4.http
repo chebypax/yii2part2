@@ -1,0 +1,53 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection).
+#
+# Following HTTP Request Live Templates are available:
+# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
+# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
+# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+
+### Get request with a header
+GET http://y2aa-frontend.test/api/users
+Accept: application/json
+
+###
+
+GET http://y2aa-frontend.test/api/projects?expand=tasks
+Accept: application/json
+
+###
+
+GET http://y2aa-frontend.test/api/tasks
+Accept: application/json
+
+###
+
+GET http://y2aa-frontend.test/api/tasks/1?expand=project
+Accept: application/json
+
+###
+
+GET http://y2aa-frontend.test/api/projects
+Accept: application/json
+Authorization: Bearer 123456
+
+###
+
+POST http://y2aa-frontend.test/api/projects
+Content-Type: application/json
+Authorization: Bearer 123456
+
+{
+  "title": "New Project 1",
+  "description": "Project Description"
+}
+
+
+###
+
+DELETE http://y2aa-frontend.test/api/projects/3
+Content-Type: application/json
+Authorization: Bearer 123456
+
+###
+
+
