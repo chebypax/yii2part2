@@ -11,6 +11,7 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property int $id
  * @property string $title
+ * @property string $description
  * @property int $active
  * @property int $project_id
  * @property int $creator_id
@@ -21,15 +22,23 @@ use yii\behaviors\TimestampBehavior;
  * @property User $creator
  * @property User $updater
  * @property ProjectUser[] $projectUsers
+ *
+ * @property Task $tasks
  */
 class Project extends \yii\db\ActiveRecord
 {
+    const RELATION_TASKS = 'tasks';
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
         return 'project';
+    }
+
+    public function getTasks()
+    {
+        return $this->hasMany(Task::class, ['project_id' => 'id']);
     }
 
     public function behaviors()
@@ -51,9 +60,10 @@ class Project extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'creator_id', 'created_at'], 'required'],
+            [['title', 'description'], 'required'],
             [['active', 'project_id', 'creator_id', 'updater_id', 'created_at', 'updated_at'], 'integer'],
             [['title'], 'string', 'max' => 255],
+            [['description'], 'string'],
             [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
             [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
         ];
@@ -67,6 +77,7 @@ class Project extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'title' => 'Title',
+            'description' => 'Description',
             'active' => 'Active',
             'project_id' => 'Project ID',
             'creator_id' => 'Creator ID',
