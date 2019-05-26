@@ -13,7 +13,6 @@ use yii\behaviors\TimestampBehavior;
  * @property string $title
  * @property string $description
  * @property int $active
- * @property int $project_id
  * @property int $creator_id
  * @property int $updater_id
  * @property int $created_at
@@ -61,7 +60,7 @@ class Project extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'description'], 'required'],
-            [['active', 'project_id', 'creator_id', 'updater_id', 'created_at', 'updated_at'], 'integer'],
+            [['active', 'creator_id', 'updater_id', 'created_at', 'updated_at'], 'integer'],
             [['title'], 'string', 'max' => 255],
             [['description'], 'string'],
             [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],

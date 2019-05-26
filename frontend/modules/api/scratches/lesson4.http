@@ -34,11 +34,12 @@ Authorization: Bearer 123456
 
 POST http://y2aa-frontend.test/api/projects
 Content-Type: application/json
-Authorization: Bearer 123456
+Authorization: Bearer 654321
 
 {
-  "title": "New Project 1",
-  "description": "Project Description"
+  "title": "New Project 2",
+  "description": "Project DescriptionProject DescriptionProject DescriptionProject DescriptionProjectProject Description"
+
 }
 
 
