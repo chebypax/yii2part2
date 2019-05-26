@@ -45,12 +45,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             TimestampBehavior::className(),
-            [
-                'class' => BlameableBehavior::className(),
-                'createdByAttribute' => 'creator_id',
-                'updatedByAttribute' => 'updater_id'
 
-            ]
         ];
     }
 
