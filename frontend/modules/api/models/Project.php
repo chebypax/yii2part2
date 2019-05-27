@@ -22,7 +22,7 @@ class Project extends \common\models\Project
 
     public function extraFields()
     {
-        return ['tasks'];
+        return [self::RELATION_TASKS];
     }
 
     public function getTasks()

@@ -21,6 +21,6 @@ class Task extends \common\models\Task
 
     public function extraFields()
     {
-        return ['project'];
+        return [self::RELATION_PROJECT];
     }
 }

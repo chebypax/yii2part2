@@ -37,7 +37,8 @@ Content-Type: application/json
 Authorization: Bearer 654321
 
 {
-  "title": "New Project 2",
+  "title": "New Project 3",
+  "active": 1,
   "description": "Project DescriptionProject DescriptionProject DescriptionProject DescriptionProjectProject Description"
 
 }
