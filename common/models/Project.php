@@ -60,9 +60,9 @@ class Project extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'description'], 'required'],
+            [['description'], 'string'],
             [['active', 'creator_id', 'updater_id', 'created_at', 'updated_at'], 'integer'],
             [['title'], 'string', 'max' => 255],
-            [['description'], 'string'],
             [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['creator_id' => 'id']],
             [['updater_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['updater_id' => 'id']],
         ];
@@ -78,7 +78,6 @@ class Project extends \yii\db\ActiveRecord
             'title' => 'Title',
             'description' => 'Description',
             'active' => 'Active',
-            'project_id' => 'Project ID',
             'creator_id' => 'Creator ID',
             'updater_id' => 'Updater ID',
             'created_at' => 'Created At',

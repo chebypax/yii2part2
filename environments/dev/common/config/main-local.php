@@ -17,4 +17,5 @@ return [
             'useFileTransport' => true,
         ],
     ],
+    'host.front' => 'http://y2aa-frontend.test'
 ];

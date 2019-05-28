@@ -124,18 +124,23 @@ use yii\helpers\Html;
 
                 <li class="dropdown user user-menu">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="user-image" alt="User Image"/>
+                        <img src="<?= Yii::$app->user->identity
+                            ->getThumbUploadUrl('avatar', \common\models\User::AVATAR_SMALL) ?>"
+                             class="user-image" alt="User Image"/>
                         <span class="hidden-xs"><?= YII::$app->user->identity->username?></span>
                     </a>
                     <ul class="dropdown-menu">
                         <!-- User image -->
                         <li class="user-header">
-                            <img src="<?= $directoryAsset ?>/img/user2-160x160.jpg" class="img-circle"
-                                 alt="User Image"/>
+                            <img src="<?= Yii::$app->user->identity
+                                ->getThumbUploadUrl('avatar', \common\models\User::AVATAR_PREVIEW) ?>"
+                                 class="img-circle" alt="User Image"/>
 
                             <p>
                                 <span><?= YII::$app->user->identity->username?></span> - Web Developer
-                                <small>Member since Nov. 2012</small>
+                                <span><?= YII::$app->user->identity->email?></span>
+                                <small>Member since
+                                    <?= date('M Y', YII::$app->user->identity->created_at)?></small>
                             </p>
                         </li>
                         <!-- Menu Body -->
@@ -143,7 +148,8 @@ use yii\helpers\Html;
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                <a href="/user/view?id=<?= YII::$app->user->identity->id?>"
+                                   class="btn btn-default btn-flat">Profile</a>
                             </div>
                             <div class="pull-right">
                                 <?= Html::a(

@@ -14,6 +14,7 @@ $('#messageForm').on('submit', (e) => {
     $('#messageWindow').val('');
     let message = {
         username: user,
+        photo: photo,
         text: newMessage
     };
     message = JSON.stringify(message);
@@ -28,7 +29,7 @@ conn.onmessage = function(e) {
     $('#chatWindow').val(`${message.username}: ${message.text} \n ${history}`);
 
     if( user != message.username) {
-        let src = photo + "/img/user2-160x160.jpg";
+        let src = message.photo;
         let el = $('<li><a href="#"><div class="pull-left">' +
             '<img id="ava" src="" class="user-image" alt="User Image"/></div>' +
             '<h4>Support Team <small><i class="fa fa-clock-o"></i> 5 mins</small></h4>' +

@@ -8,7 +8,8 @@ $this->title = 'My Yii Application';
     <?= \common\modules\chat\widgets\Chat::widget([
             'wsPort' => Yii::$app->params['chat.port'],
             'user' => Yii::$app->user->identity->username,
-        'photo' => ""]) ?>
+        'photo' => Yii::$app->user->identity
+                            ->getThumbUploadUrl('avatar', \common\models\User::AVATAR_SMALL)]) ?>
     <div class="jumbotron">
         <h1>Congratulations!</h1>
 
