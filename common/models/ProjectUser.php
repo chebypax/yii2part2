@@ -18,7 +18,7 @@ use Yii;
 class ProjectUser extends \yii\db\ActiveRecord
 {
     const RELATION_USER = 'user';
-
+    const RELATION_PROJECT = 'project';
     const ROLE_MANAGER = 'manager';
     const ROLE_DEVELOPER = 'developer';
     const ROLE_TESTER = 'tester';

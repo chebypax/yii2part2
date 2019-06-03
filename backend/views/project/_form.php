@@ -24,7 +24,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'active')->dropDownList(\common\models\Project::STATUS_LABELS) ?>
 
-    <?php if ($model->getScenario() == \common\models\Project::SCENARIO_UPDATE): ?>
+    <?php if (!$model->isNewRecord): ?>
 
         <?php
         echo $form->field($model, \common\models\Project::RELATION_PROJECT_USERS)

@@ -25,10 +25,12 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'status')->dropDownList(\common\models\User::STATUS_LABELS) ?>
 
-
+    <?php if(!$model->isNewRecord) : ?>
     <?= $form->field($model, 'avatar')
         ->fileInput()
         ->label(Html::img($model->getThumbUploadUrl('avatar', \common\models\User::AVATAR_PREVIEW)))?>
+    <?php endif;?>
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>

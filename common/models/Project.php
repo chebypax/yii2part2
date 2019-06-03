@@ -22,7 +22,6 @@ use yii\behaviors\TimestampBehavior;
  * @property User $creator
  * @property User $updater
  * @property ProjectUser[] $projectUsers
- * @property User[] $accessedUsers
  *
  * @property Task $tasks
  */
@@ -30,7 +29,6 @@ class Project extends \yii\db\ActiveRecord
 {
     const RELATION_TASKS = 'tasks';
     const RELATION_PROJECT_USERS = 'projectUsers';
-    const RELATION_ACCESSED_USERS = 'accessedUsers';
 
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
@@ -84,6 +82,7 @@ class Project extends \yii\db\ActiveRecord
             [['title', 'description'], 'required'],
             [['description'], 'string'],
             [['description'], 'string', 'on' => self::SCENARIO_UPDATE],
+            [['description'], 'string', 'on' => self::SCENARIO_CREATE],
             [['active', 'creator_id', 'updater_id', 'created_at', 'updated_at'], 'integer'],
             [['title'], 'string', 'max' => 255],
             [['creator_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(),
@@ -133,14 +132,7 @@ class Project extends \yii\db\ActiveRecord
     {
         return $this->hasMany(ProjectUser::className(), ['project_id' => 'id']);
     }
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getAccessedUsers()
-    {
-        return $this->hasMany(User::className(), ['id' => 'user_id'])
-            ->via(self::RELATION_PROJECT_USERS);
-    }
+
 
 
     /**

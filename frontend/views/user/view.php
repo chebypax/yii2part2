@@ -1,5 +1,6 @@
 <?php
 
+use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -51,6 +52,31 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ],
     ]) ?>
+
+    <h3>Проекты, в которых задействован пользователь</h3>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => [
+
+            [
+                'attribute' => 'Проект',
+                'format' => 'raw',
+                'value' => function(\common\models\ProjectUser $model)
+                {
+
+                    return HTML::a($model->project->title, ['project/view', 'id' => $model->project->id]);
+                }
+            ],
+            [
+                'attribute' => 'Роль',
+                'format' => 'raw',
+                'value' => function(\common\models\ProjectUser $model)
+                {
+                    return $model->role;
+                }
+            ],
+        ],
+    ]); ?>
 
 
 </div>
