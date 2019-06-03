@@ -2,9 +2,12 @@
 
 namespace frontend\controllers;
 
+use common\models\ProjectUser;
+use common\models\User;
 use Yii;
 use common\models\Project;
 use common\models\search\ProjectSearch;
+use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -52,8 +55,16 @@ class ProjectController extends Controller
      */
     public function actionView($id)
     {
+        $project = Project::findOne($id);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $project->getProjectUsers()
+        ]);
+
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $project,
+            'dataProvider' => $dataProvider
         ]);
     }
 

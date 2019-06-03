@@ -28,6 +28,7 @@ use yii\web\IdentityInterface;
  * @property Task @updatedTasks
  * @property Project @createdProjects
  * @property Project @updatedProjects
+ * @property ProjectUser @role
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -55,6 +56,12 @@ class User extends ActiveRecord implements IdentityInterface
     const RELATION_UPDATED_TASKS = 'updatedTasks';
     const RELATION_CREATED_PROJECTS = 'createdProjects';
     const RELATION_UPDATED_PROJECTS = 'updatedProjects';
+    const RELATION_ROLE = 'role';
+
+    public function getRole()
+    {
+        return $this->hasOne(ProjectUser::class, ['user_id' => 'id']);
+    }
 
     public function getActivedTasks()
     {

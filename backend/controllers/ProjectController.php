@@ -2,9 +2,13 @@
 
 namespace backend\controllers;
 
+use common\models\User;
 use Yii;
 use common\models\Project;
 use common\models\search\ProjectSearch;
+use yii\data\ActiveDataProvider;
+use yii\db\Query;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -52,8 +56,15 @@ class ProjectController extends Controller
      */
     public function actionView($id)
     {
+        $project = Project::findOne($id);
+
+        $dataProvider = new ActiveDataProvider([
+            'query' => $project->getAccessedUsers(),
+        ]);
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $project,
+            'dataProvider' => $dataProvider
         ]);
     }
 
@@ -65,10 +76,13 @@ class ProjectController extends Controller
     public function actionCreate()
     {
         $model = new Project();
+        $model->setScenario(Project::SCENARIO_CREATE);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         }
+
+
 
         return $this->render('create', [
             'model' => $model,
@@ -85,14 +99,34 @@ class ProjectController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $model->setScenario(Project::SCENARIO_UPDATE);
+        $users = User::find()->select('username')->indexBy('id')->column();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+        if ($this->loadModel($model) && $model->save()) {
+            return $this->render('update', [
+                'model' => $model,
+                'users' => $users
+            ]);
         }
+
 
         return $this->render('update', [
             'model' => $model,
+            'users' => $users
         ]);
+    }
+
+    public function loadModel(Project $model)
+    {
+        $data = Yii::$app->request->post($model->formName());
+        $projectUsers = $data[Project::RELATION_PROJECT_USERS] ?? null;
+        if ($projectUsers !== null)
+        {
+            $model->projectUsers = $projectUsers === ''? [] : $projectUsers;
+        }
+        return $model->load(Yii::$app->request->post());
+
     }
 
     /**

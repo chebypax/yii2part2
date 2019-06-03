@@ -21,7 +21,9 @@
         "dmstr/yii2-adminlte-asset": "2.6.2",
         "cboden/ratchet": "dev-master",
         "yiisoft/yii2-imagine": "^2.0@dev",
-        "mohorev/yii2-upload-behavior": "*"
+        "mohorev/yii2-upload-behavior": "*",
+        "la-haute-societe/yii2-save-relations-behavior": "*",
+        "unclead/yii2-multiple-input": "~2.0"
 
     },
     "require-dev": {

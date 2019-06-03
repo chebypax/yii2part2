@@ -1,5 +1,6 @@
 <?php
 
+use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -32,12 +33,45 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'title',
             'description:ntext',
-            'active',
+            [
+                'attribute' => 'active',
+                'format' => 'raw',
+                'value' => \common\models\Project::STATUS_LABELS[$model->active]
+            ],
+
             'creator_id',
             'updater_id',
-            'created_at',
-            'updated_at',
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
     ]) ?>
+<h3>Пользователи, назначенные на задачу</h3>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => [
+
+            [
+                'attribute' => 'users',
+                'format' => 'raw',
+                'value' => function(\common\models\User $user)
+                {
+
+                   return HTML::a($user->username, ['user/view', 'id' => $user->id]);
+                }
+            ],
+            [
+                'attribute' => 'role',
+                'format' => 'raw',
+                'value' => function(\common\models\User $user)
+                {
+                    return $user->getRole();
+                }
+            ],
+
+
+
+
+        ],
+    ]); ?>
 
 </div>

@@ -1,5 +1,6 @@
 <?php
 
+use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -39,5 +40,26 @@ $this->params['breadcrumbs'][] = $this->title;
             'updated_at',
         ],
     ]) ?>
+
+    <h3>Пользователи, назначенные на задачу</h3>
+    <?= GridView::widget([
+        'dataProvider' => $dataProvider,
+        'columns' => [
+
+            //'role',
+            //'username',
+            [
+                'attribute' => 'users',
+                'format' => 'raw',
+                'value' => function(\common\models\User $user)
+                {
+                    var_dump($user); exit;
+                    return HTML::a($user->username, ['user/view', 'id' => $user->id]);
+                }
+            ],
+
+
+        ],
+    ]); ?>
 
 </div>
