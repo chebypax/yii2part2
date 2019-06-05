@@ -148,7 +148,7 @@ use yii\helpers\Html;
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-left">
-                                <a href="/user/view?id=<?= YII::$app->user->identity->id?>"
+                                <a href="/user"
                                    class="btn btn-default btn-flat">Profile</a>
                             </div>
                             <div class="pull-right">
