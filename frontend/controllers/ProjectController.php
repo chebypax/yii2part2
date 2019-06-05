@@ -11,6 +11,7 @@ use yii\data\ActiveDataProvider;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * ProjectController implements the CRUD actions for Project model.
@@ -27,6 +28,21 @@ class ProjectController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['user'],
+                    ],
+
+                    [
+                        'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
         ];
@@ -97,7 +113,16 @@ class ProjectController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+
+            $project = ProjectUser::find()->where('project_id = :id' ,[':id' => $id]);
+            $dataProvider = new ActiveDataProvider([
+                'query' => $project
+            ]);
+
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+                'dataProvider' => $dataProvider
+            ]);
         }
 
         return $this->render('update', [

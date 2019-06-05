@@ -26,6 +26,7 @@ return [
                 return;
             }
         ],
+
         'session' => [
             // this is the name of the session cookie used for login on the backend
             'name' => 'advanced-backend',
@@ -52,6 +53,9 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'user' => 'user/profile',
+                '<controller:[\w-]+>s' => '<controller>/index',
+                '<controller:[\w-]+>/<id:\d+>' => '<controller>/view'
             ],
         ],
 

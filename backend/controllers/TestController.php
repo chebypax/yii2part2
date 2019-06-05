@@ -2,6 +2,7 @@
 namespace backend\controllers;
 
 
+use common\models\User;
 use yii\web\Controller;
 
 
@@ -14,7 +15,9 @@ class TestController extends Controller
 
     public function actionIndex()
     {
-        return "Hello, World!";
+        $users = User::find()->select('id')->column();
+        array_splice($users,0,1);
+        var_dump($users);
     }
 
 

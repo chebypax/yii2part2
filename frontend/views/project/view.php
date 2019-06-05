@@ -46,19 +46,24 @@ $this->params['breadcrumbs'][] = $this->title;
         'dataProvider' => $dataProvider,
         'columns' => [
 
-            //'role',
-            //'username',
             [
-                'attribute' => 'users',
+                'attribute' => 'Пользователь',
                 'format' => 'raw',
-                'value' => function(\common\models\User $user)
+                'value' => function(\common\models\ProjectUser $model)
                 {
-                    var_dump($user); exit;
-                    return HTML::a($user->username, ['user/view', 'id' => $user->id]);
+
+                    return HTML::a($model->user->username, ['user/view', 'id' => $model->user->id]);
                 }
             ],
+            [
+                'attribute' => 'Роль',
+                'format' => 'raw',
+                'value' => function(\common\models\ProjectUser $model)
+                {
 
-
+                    return $model->role;
+                }
+            ],
         ],
     ]); ?>
 

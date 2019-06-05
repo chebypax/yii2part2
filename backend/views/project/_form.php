@@ -58,9 +58,8 @@ use yii\widgets\ActiveForm;
                         'type' => MultipleInputColumn::TYPE_DROPDOWN,
                         'enableError' => true,
                         'title' => 'Роль',
-                        'items' => [
-                            \common\models\ProjectUser::ROLE_LABELS
-                        ]
+                        'items' => \common\models\ProjectUser::ROLE_LABELS
+
                     ],
                 ]
             ])->label(null);

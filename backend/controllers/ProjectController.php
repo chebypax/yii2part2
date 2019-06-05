@@ -9,6 +9,7 @@ use common\models\Project;
 use common\models\search\ProjectSearch;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
+use yii\filters\AccessControl;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -29,6 +30,20 @@ class ProjectController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                ],
+            ],
+            'access' => [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ],
+                    [
+                        'actions' => ['logout'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
                 ],
             ],
         ];
@@ -103,14 +118,28 @@ class ProjectController extends Controller
         $model->setScenario(Project::SCENARIO_UPDATE);
         $users = User::find()->select('username')->indexBy('id')->column();
 
+        $projectUsers = $model->getUserRoles();
+
+
 
         if ($this->loadModel($model) && $model->save()) {
-            return $this->render('update', [
-                'model' => $model,
-                'users' => $users
+            if ($diff = array_diff_assoc($model->getUserRoles(), $projectUsers))
+            {
+                foreach ($diff as $userId => $role)
+                {
+                    \Yii::$app->projectService->assignRole($model, User::findOne($userId), $role);
+                }
+            }
+            $project = ProjectUser::find()->where('project_id = :id' ,[':id' => $id]);
+            $dataProvider = new ActiveDataProvider([
+                'query' => $project
+            ]);
+
+            return $this->render('view', [
+                'model' => $this->findModel($id),
+                'dataProvider' => $dataProvider
             ]);
         }
-
 
         return $this->render('update', [
             'model' => $model,
