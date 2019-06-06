@@ -71,10 +71,11 @@ class ProjectController extends Controller
      */
     public function actionView($id)
     {
-        $project = ProjectUser::find()->where('project_id = :id' ,[':id' => $id]);
+        $project = Project::findOne($id);
         $dataProvider = new ActiveDataProvider([
-            'query' => $project
+            'query' => $project->getProjectUsers()
         ]);
+
 
 
         return $this->render('view', [
@@ -114,10 +115,11 @@ class ProjectController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
-            $project = ProjectUser::find()->where('project_id = :id' ,[':id' => $id]);
+            $project = Project::findOne($id);
             $dataProvider = new ActiveDataProvider([
-                'query' => $project
+                'query' => $project->getProjectUsers()
             ]);
+
 
             return $this->render('view', [
                 'model' => $this->findModel($id),
