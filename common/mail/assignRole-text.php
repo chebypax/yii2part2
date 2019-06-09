@@ -1,2 +1,8 @@
-Уважаемый <?=$data['user']->username?>!
-В проекте <?=$data['project']->title?> Вам назначена роль <?=$data['role']?>.
+<?php
+
+/** @var \common\models\User $user*/
+/** @var \common\models\Project $project*/
+/** @var string $role*/
+?>
+Уважаемый <?=$user->username?>!
+В проекте <?=$project->title?> Вам назначена роль <?=$role?>.

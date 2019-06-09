@@ -14,9 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Project', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+
 
     <?php Pjax::begin(); ?>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
@@ -27,16 +25,64 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'id',
-            'title',
+            //'id',
+            [
+                'attribute' => 'title',
+                'format' => 'raw',
+                'value' => function(\common\models\Project $model)
+                {
+                    return HTML::a($model->title, ['project/view', 'id' => $model->id]);
+                }
+            ],
             'description:ntext',
-            'active',
-            'creator_id',
-            //'updater_id',
-            //'created_at',
-            //'updated_at',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'attribute' => 'active',
+                'format' => 'raw',
+                'filter' => \common\models\Project::STATUS_LABELS,
+                'value' => function(\common\models\Project $model)
+                {
+                    return \common\models\Project::STATUS_LABELS[$model->active];
+                }
+            ],
+            [
+                'attribute' => 'role',
+                'format' => 'raw',
+                'filter' => \common\models\ProjectUser::ROLE_LABELS,
+                'value' => function(\common\models\Project $model)
+                {
+                    $result = '';
+                    foreach (\Yii::$app->projectService->getRoles($model, \Yii::$app->user->identity) as $role)
+                    {
+                        $result .= $result . $role . ", ";
+                    }
+                    $result = substr($result, 0, strlen($result) - 2);
+                    return $result;
+                }
+            ],
+            [
+                'attribute' => 'creator_id',
+                'format' => 'raw',
+                //'filter' => \common\models\Project::STATUS_LABELS,
+                'value' => function(\common\models\Project $model)
+                {
+                    return HTML::a($model->creator->username, ['user/view', 'id' => $model->creator->id]);
+                }
+            ],
+            [
+                'attribute' => 'updater_id',
+                'format' => 'raw',
+                //filter' => \common\models\Project::STATUS_LABELS,
+                'value' => function(\common\models\Project $model)
+                {
+                    return HTML::a($model->updater->username, ['user/view', 'id' => $model->updater->id]);
+                }
+            ],
+            //'updater_id',
+            'created_at:datetime',
+            'updated_at:datetime',
+
+            //['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
 

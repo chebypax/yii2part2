@@ -1,6 +1,7 @@
 <?php
 
 
+use common\services\NotificationService;
 
 return [
     'aliases' => [
@@ -18,8 +19,7 @@ return [
             function (\common\services\AssignRoleEvent $event)
             {
                 Yii::$app->notificationService->sendAssignRoleEmail($event->user, $event->project, $event->role);
-            }
-
+            },
         ],
         'emailService' => [
             'class' => common\services\EmailService::class,
@@ -29,6 +29,19 @@ return [
         ],
         'authManager' => [
             'class' => yii\rbac\DbManager::class,
+        ],
+        'taskService' => [
+            'class' => common\services\TaskService::class,
+            'on '.\common\services\TaskService::EVENT_TAKE_TASK =>
+                function (\common\services\TakeTaskEvent $event)
+                {
+                    Yii::$app->notificationService->sendTakeTaskEmail($event->user, $event->task);
+                },
+            'on '.\common\services\TaskService::EVENT_COMPLETE_TASK =>
+                function (\common\services\CompleteTaskEvent $event)
+                {
+                    Yii::$app->notificationService->sendCompleteTaskEmail($event->user, $event->task);
+                }
         ],
     ],
     'modules' => [

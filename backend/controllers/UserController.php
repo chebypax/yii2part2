@@ -37,11 +37,7 @@ class UserController extends Controller
                         'allow' => true,
                         'roles' => ['admin'],
                     ],
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
+
                 ],
             ],
         ];
@@ -93,6 +89,13 @@ class UserController extends Controller
         $model -> setScenario(User::SCENARIO_CREATE);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            $auth = Yii::$app->authManager;
+            if(!$auth->getRolesByUser($model->id)) {
+                $authorRole = $auth->getRole('user');
+                $auth->assign($authorRole, $model->id);
+            }
+
             return $this->redirect(['view', 'id' => $model->id]);
         }
 

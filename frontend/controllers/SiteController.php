@@ -35,16 +35,12 @@ class SiteController extends Controller
                         'allow' => true,
                         'roles' => ['?'],
                     ],
+
                     [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                    [
-                        'actions' => ['index'],
                         'allow' => true,
                         'roles' => ['user'],
                     ],
+
                 ],
             ],
             'verbs' => [
@@ -159,6 +155,14 @@ class SiteController extends Controller
     {
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post()) && $model->signup()) {
+
+            $auth = Yii::$app->authManager;
+            if(!$auth->getRolesByUser($model->id)) {
+                $authorRole = $auth->getRole('user');
+                $auth->assign($authorRole, $model->id);
+            }
+
+
             Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
             return $this->goHome();
         }

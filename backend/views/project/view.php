@@ -34,13 +34,25 @@ $this->params['breadcrumbs'][] = $this->title;
             'title',
             'description:ntext',
             [
-                'attribute' => 'active',
+                'attribute' => 'status',
                 'format' => 'raw',
                 'value' => \common\models\Project::STATUS_LABELS[$model->active]
             ],
-
-            'creator_id',
-            'updater_id',
+            [
+                'attribute' => 'updater',
+                'format' => 'raw',
+                'value' => $model->updater->username
+            ],
+            [
+                'attribute' => 'creator',
+                'format' => 'raw',
+                'value' => $model->creator->username
+            ],
+            [
+                'attribute' => 'updater',
+                'format' => 'raw',
+                'value' => $model->updater->username
+            ],
             'created_at:datetime',
             'updated_at:datetime',
         ],

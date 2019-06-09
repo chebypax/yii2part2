@@ -2,6 +2,9 @@
 
 namespace common\models\query;
 
+
+use common\models\Project;
+
 /**
  * This is the ActiveQuery class for [[\common\models\Task]].
  *
@@ -13,6 +16,12 @@ class TaskQuery extends \yii\db\ActiveQuery
     {
         return $this->andWhere('[[status]]=1');
     }*/
+
+    public function byUser($userId, $role = null)
+    {
+        $query = Project::find()->select('id')->byUser($userId, $role);
+        return $this->andWhere(['project_id' => $query]);
+    }
 
     /**
      * {@inheritdoc}

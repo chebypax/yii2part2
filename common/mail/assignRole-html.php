@@ -1,8 +1,12 @@
 <?php
 use \yii\helpers\Html;
+
+/** @var \common\models\User $user*/
+/** @var \common\models\Project $project*/
+/** @var string $role*/
 ?>
 <div>
-    <h4>Уважаемый <?=Html::encode($data['user']->username)?>!</h4>
-    <p>В проекте <?=$data['project']->title?> Вам назначена роль <?=$data['role']?>.</p>
+    <h4>Уважаемый <?=Html::encode($user->username)?>!</h4>
+    <p>В проекте <?=$project->title?> Вам назначена роль <?=$role?>.</p>
 </div>
 

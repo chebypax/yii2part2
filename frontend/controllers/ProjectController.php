@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\ProjectUser;
+use common\models\query\ProjectQuery;
 use common\models\User;
 use Yii;
 use common\models\Project;
@@ -38,11 +39,6 @@ class ProjectController extends Controller
                         'roles' => ['user'],
                     ],
 
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
                 ],
             ],
         ];
@@ -56,6 +52,9 @@ class ProjectController extends Controller
     {
         $searchModel = new ProjectSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        /** @var ProjectQuery $query*/
+        $query = $dataProvider->query;
+        $query->byUser(Yii::$app->user->id);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -84,67 +83,7 @@ class ProjectController extends Controller
         ]);
     }
 
-    /**
-     * Creates a new Project model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Project();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Updates an existing Project model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-
-            $project = Project::findOne($id);
-            $dataProvider = new ActiveDataProvider([
-                'query' => $project->getProjectUsers()
-            ]);
-
-
-            return $this->render('view', [
-                'model' => $this->findModel($id),
-                'dataProvider' => $dataProvider
-            ]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Deletes an existing Project model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
 
     /**
      * Finds the Project model based on its primary key value.

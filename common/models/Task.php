@@ -30,6 +30,9 @@ use yii\behaviors\TimestampBehavior;
 class Task extends \yii\db\ActiveRecord
 {
     const RELATION_PROJECT = 'project';
+    const RELATION_EXECUTOR = 'executor';
+    const ACTIVE_ACTIVE = 1;
+    const ACTIVE_INACTIVE = 0;
 
     public function getProject()
     {
@@ -43,13 +46,15 @@ class Task extends \yii\db\ActiveRecord
         return 'task';
     }
 
+
+
     /**
      * {@inheritdoc}
      */
     public function rules()
     {
         return [
-            [['title', 'description', 'creator_id', 'created_at'], 'required'],
+            [['title', 'description'], 'required'],
             [['description'], 'string'],
             [['project_id', 'executor_id', 'started_at', 'completed_at', 'creator_id', 'updater_id', 'created_at', 'updated_at'], 'integer'],
             [['title'], 'string', 'max' => 255],

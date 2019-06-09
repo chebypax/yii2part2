@@ -39,11 +39,7 @@ class ProjectController extends Controller
                         'allow' => true,
                         'roles' => ['admin'],
                     ],
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
+
                 ],
             ],
         ];
@@ -116,7 +112,7 @@ class ProjectController extends Controller
     {
         $model = $this->findModel($id);
         $model->setScenario(Project::SCENARIO_UPDATE);
-        $users = User::find()->select('username')->indexBy('id')->column();
+        $users = User::find()->onlyActive()->select('username')->indexBy('id')->column();
 
         $projectUsers = $model->getUserRoles();
 
