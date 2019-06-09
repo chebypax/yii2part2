@@ -316,5 +316,15 @@ class User extends ActiveRecord implements IdentityInterface
         return new \common\models\query\UserQuery(get_called_class());
     }
 
+    public function getAvatar()
+    {
+        return $this->getThumbUploadUrl('avatar', self::AVATAR_SMALL);
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
 
 }
