@@ -70,6 +70,19 @@ class ProjectService extends Component
         }
         return $users;
     }
+
+    public function getManagersAndDevelopers()
+    {
+        $projects = ProjectUser::find()->byUser(\Yii::$app->user->id)
+            ->where(['in','role',[ProjectUser::ROLE_DEVELOPER, ProjectUser::ROLE_MANAGER]])->all();
+        $users = [];
+        foreach ($projects as $project)
+        {
+            $users[$project->user->id] = $project->user->username;
+        }
+        return $users;
+    }
+
     public function getManagedProjects()
     {
         $projects = ProjectUser::find()->byUser(\Yii::$app->user->id, ProjectUser::ROLE_MANAGER)->all();

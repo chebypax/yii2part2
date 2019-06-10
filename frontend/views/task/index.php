@@ -56,7 +56,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'updater_id',
                 'label' => 'Updater',
-                'filter' => \Yii::$app->projectService->getManagers(),
+                'filter' => \Yii::$app->projectService->getManagersAndDevelopers(),
                 'format' => 'raw',
                 'value' => function (\common\models\Task $model) {
                     return HTML::a($model->updater->username, ['user/view', 'id' => $model->updater->id]);
